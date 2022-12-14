@@ -26,6 +26,7 @@ func GetCountriesData() {
 
 	// Get countries.
 	countries, err := db.GetCountries(database(&DBConnections{}))
+
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -41,6 +42,7 @@ func GetStatesData() {
 
 	// Get states.
 	states, err := db.GetStates(database(&DBConnections{}))
+
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -53,8 +55,10 @@ func GetStatesData() {
 
 // ! Get cities function
 func GetCitiesData() {
-	// Get cities.
+
+	//  Get cities.
 	cities, err := db.GetCities(database(&DBConnections{}))
+
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -66,4 +70,6 @@ func GetCitiesData() {
 		fmt.Printf("%v %v %v %v %v	\n", *city.CountryID, *city.CountryName, *city.StateID, *city.CityID, *city.CityName)
 
 	}
+
+	defer database(&DBConnections{}).Close()
 }
