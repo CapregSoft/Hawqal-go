@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	db "hawqal/database"
+	ser "hawqal/services"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -10,36 +11,42 @@ import (
 
 func main() {
 	// Open a connection to the database.
+
 	conn := db.DBConnection()
 	defer conn.Close()
 
-	// Execute a query.
-	rows, err := conn.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
+	// ! Get countries.
+	countries, err := ser.GetCountries(conn)
 	if err != nil {
-		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
-		return
 	}
-	defer rows.Close()
-
-	// Loop through the returned rows and print the values.
-	for rows.Next() {
-		var country_id int
-		var country_name string
-		err = rows.Scan(&country_id, &country_name)
-		if err != nil {
-			// Handle the error.
-			log.Fatalf("Error executing query: %v", err)
-			return
-		}
-		fmt.Println(country_id, country_name)
+	fmt.Println("Countries:")
+	for _, country := range countries {
+		fmt.Printf("%v %v	\n", *country.CountryID, *country.CountryName)
 	}
 
-	// Check for any errors that may have occurred during the iteration.
-	err = rows.Err()
+	// ! Get states.
+	states, err := ser.GetStates(conn)
 	if err != nil {
-		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
-		return
 	}
+	fmt.Println("States:")
+	for _, state := range states {
+		fmt.Printf("%v %v %v %v	\n", *state.CountryID, *state.CountryName, *state.StateID, *state.StateName)
+	}
+
+	// ! Get cities.
+	cities, err := ser.GetCities(conn)
+	if err != nil {
+		log.Fatalf("Error executing query: %v", err)
+	}
+
+	fmt.Println("Cities:")
+
+	for _, city := range cities {
+
+		fmt.Printf("%v %v %v %v %v	\n", *city.CountryID, *city.CountryName, *city.StateID, *city.CityID, *city.CityName)
+
+	}
+
 }

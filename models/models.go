@@ -5,7 +5,7 @@ type Countries struct {
 	CountryName *string `db:"country_name"`
 }
 
-type State struct {
+type States struct {
 	CountryID   *int    `db:"country_id"`
 	CountryName *string `db:"country_name"`
 	StateID     *int    `db:"state_id"`
