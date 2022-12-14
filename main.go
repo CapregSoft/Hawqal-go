@@ -19,7 +19,7 @@ func main() {
 	defer db.Close()
 
 	// Execute a query.
-	rows, err := db.Query("SELECT country_id, country_name FROM countries")
+	rows, err := db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
 	if err != nil {
 		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
