@@ -1,4 +1,4 @@
-module main
+module hawqal
 
 go 1.18
 
