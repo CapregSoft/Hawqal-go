@@ -1,9 +1,8 @@
-package services
+package db
 
 import (
 	"database/sql"
 	"log"
-
 	mod "hawqal/models"
 )
 
