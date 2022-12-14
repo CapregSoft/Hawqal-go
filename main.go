@@ -1,8 +1,8 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
+	db "hawqal/database"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -10,16 +10,11 @@ import (
 
 func main() {
 	// Open a connection to the database.
-	db, err := sql.Open("sqlite3", "./database/hawqalDB.sqlite")
-	if err != nil {
-		// Handle the error.
-		log.Fatalf("Error opening database: %v", err)
-		return
-	}
-	defer db.Close()
+	conn := db.DBConnection()
+	defer conn.Close()
 
 	// Execute a query.
-	rows, err := db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
+	rows, err := conn.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
 	if err != nil {
 		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
