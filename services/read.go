@@ -16,7 +16,7 @@ type DBConnections struct {
 	db *sql.DB
 }
 
-func database(conn *DBConnections) *sql.DB {
+func Database(conn *DBConnections) *sql.DB {
 	conn.db = dbConn
 	return conn.db
 }
@@ -25,7 +25,7 @@ func database(conn *DBConnections) *sql.DB {
 func GetCountriesData() {
 
 	// Get countries.
-	countries, err := db.GetCountries(database(&DBConnections{}))
+	countries, err := db.GetCountries(Database(&DBConnections{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
@@ -41,7 +41,7 @@ func GetCountriesData() {
 func GetStatesData() {
 
 	// Get states.
-	states, err := db.GetStates(database(&DBConnections{}))
+	states, err := db.GetStates(Database(&DBConnections{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
@@ -57,7 +57,7 @@ func GetStatesData() {
 func GetCitiesData() {
 
 	//  Get cities.
-	cities, err := db.GetCities(database(&DBConnections{}))
+	cities, err := db.GetCities(Database(&DBConnections{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
