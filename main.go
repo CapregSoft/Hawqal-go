@@ -1,45 +1,17 @@
 package main
 
 import (
-	"fmt"
-	db "hawqal/database"
-	"log"
-
-	_ "github.com/mattn/go-sqlite3"
+	dt "hawqal/services"
 )
 
 func main() {
-	// Open a connection to the database.
-	conn := db.DBConnection()
-	defer conn.Close()
 
-	// Execute a query.
-	rows, err := conn.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
-	if err != nil {
-		// Handle the error.
-		log.Fatalf("Error executing query: %v", err)
-		return
-	}
-	defer rows.Close()
+	// ! Get countries.
+	dt.GetCountriesData()
 
-	// Loop through the returned rows and print the values.
-	for rows.Next() {
-		var country_id int
-		var country_name string
-		err = rows.Scan(&country_id, &country_name)
-		if err != nil {
-			// Handle the error.
-			log.Fatalf("Error executing query: %v", err)
-			return
-		}
-		fmt.Println(country_id, country_name)
-	}
+	// ! Get states.
+	dt.GetStatesData()
 
-	// Check for any errors that may have occurred during the iteration.
-	err = rows.Err()
-	if err != nil {
-		// Handle the error.
-		log.Fatalf("Error executing query: %v", err)
-		return
-	}
+	// ! Get cities.
+	dt.GetCitiesData()
 }
