@@ -1,22 +1,32 @@
 package services
 
 import (
+	"database/sql"
 	"fmt"
 	db "hawqal/db"
-	dbConn "hawqal/db_migrator"
+	conn "hawqal/db_migrator"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// Get countries function
-func GetCountriesData(){
+var dbConn = conn.DBConnection()
 
-	conn := dbConn.DBConnection()
-	defer conn.Close()
+type DBConnections struct {
+	db *sql.DB
+}
+
+func Database(conn *DBConnections) *sql.DB {
+	conn.db = dbConn
+	return conn.db
+}
+
+// ! Get countries function
+func GetCountriesData() {
 
 	// Get countries.
-	countries, err := db.GetCountries(conn)
+	countries, err := db.GetCountries(Database(&DBConnections{}))
+
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -24,17 +34,15 @@ func GetCountriesData(){
 	for _, country := range countries {
 		fmt.Printf("%v %v	\n", *country.CountryID, *country.CountryName)
 	}
- 
+
 }
 
-// Get states function
+// ! Get states function
 func GetStatesData() {
 
-	conn := dbConn.DBConnection()
-	defer conn.Close()
-
 	// Get states.
-	states, err := db.GetStates(conn)
+	states, err := db.GetStates(Database(&DBConnections{}))
+
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -45,14 +53,12 @@ func GetStatesData() {
 
 }
 
-// Get cities function
+// ! Get cities function
 func GetCitiesData() {
 
-	conn := dbConn.DBConnection()
-	defer conn.Close()
+	//  Get cities.
+	cities, err := db.GetCities(Database(&DBConnections{}))
 
-	// Get cities.
-	cities, err := db.GetCities(conn)
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
@@ -64,4 +70,6 @@ func GetCitiesData() {
 		fmt.Printf("%v %v %v %v %v	\n", *city.CountryID, *city.CountryName, *city.StateID, *city.CityID, *city.CityName)
 
 	}
+
+	defer database(&DBConnections{}).Close()
 }
