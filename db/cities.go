@@ -7,7 +7,6 @@ import (
 	"github.com/CapregSoft/Hawqal-go/models"
 )
 
-// GetCities function
 func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
 	rows, err := db.Query("SELECT country_id, country_name, state_id, city_id, name FROM cities")
 	if err != nil {
@@ -24,10 +23,8 @@ func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
 		}
 		cities = append(cities, &city)
 	}
-
 	err = rows.Err()
 	if err != nil {
-		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
 		return nil, err
 	}

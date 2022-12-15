@@ -23,7 +23,6 @@ func Database(conn *DBConnection) *sql.DB {
 }
 
 func GetCountriesData() ([]*models.Countries, error) {
-	// Get countries.
 	countries, err := db.GetCountriesDB(Database(&DBConnection{}))
 
 	if err != nil {
@@ -32,10 +31,7 @@ func GetCountriesData() ([]*models.Countries, error) {
 	return countries, nil
 }
 
-// ! Get states function
 func GetStatesData() ([]*models.States, error) {
-
-	// Get states.
 	states, err := db.GetStatesDB(Database(&DBConnection{}))
 
 	if err != nil {
@@ -44,10 +40,8 @@ func GetStatesData() ([]*models.States, error) {
 	return states, nil
 }
 
-// ! Get cities function
 func GetCitiesData() ([]*models.Cities, error) {
 
-	//  Get cities.
 	cities, err := db.GetCitiesDB(Database(&DBConnection{}))
 
 	if err != nil {

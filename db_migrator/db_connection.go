@@ -5,7 +5,6 @@ import (
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
-
 )
 
 func DBConnection() *sql.DB {
