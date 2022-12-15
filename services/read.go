@@ -2,74 +2,58 @@ package services
 
 import (
 	"database/sql"
-	"fmt"
-	db "hawqal/db"
-	conn "hawqal/db_migrator"
 	"log"
+
+	db "github.com/CapregSoft/Hawqal-go/db"
+	conn "github.com/CapregSoft/Hawqal-go/db_migrator"
+	"github.com/CapregSoft/Hawqal-go/models"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var dbConn = conn.DBConnection()
 
-type DBConnections struct {
+type DBConnection struct {
 	db *sql.DB
 }
 
-func Database(conn *DBConnections) *sql.DB {
+func Database(conn *DBConnection) *sql.DB {
 	conn.db = dbConn
 	return conn.db
 }
 
-// ! Get countries function
-func GetCountriesData() {
-
+func GetCountriesData() ([]*models.Countries, error) {
 	// Get countries.
-	countries, err := db.GetCountries(Database(&DBConnections{}))
+	countries, err := db.GetCountriesDB(Database(&DBConnection{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
-	fmt.Println("Countries:")
-	for _, country := range countries {
-		fmt.Printf("%v %v	\n", *country.CountryID, *country.CountryName)
-	}
-
+	return countries, nil
 }
 
 // ! Get states function
-func GetStatesData() {
+func GetStatesData() ([]*models.States, error) {
 
 	// Get states.
-	states, err := db.GetStates(Database(&DBConnections{}))
+	states, err := db.GetStatesDB(Database(&DBConnection{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
-	fmt.Println("States:")
-	for _, state := range states {
-		fmt.Printf("%v %v %v %v	\n", *state.CountryID, *state.CountryName, *state.StateID, *state.StateName)
-	}
-
+	return states, nil
 }
 
 // ! Get cities function
-func GetCitiesData() {
+func GetCitiesData() ([]*models.Cities, error) {
 
 	//  Get cities.
-	cities, err := db.GetCities(Database(&DBConnections{}))
+	cities, err := db.GetCitiesDB(Database(&DBConnection{}))
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
 
-	fmt.Println("Cities:")
-
-	for _, city := range cities {
-
-		fmt.Printf("%v %v %v %v %v	\n", *city.CountryID, *city.CountryName, *city.StateID, *city.CityID, *city.CityName)
-
-	}
-
-	defer database(&DBConnections{}).Close()
+	defer Database(&DBConnection{}).Close()
+	return cities, nil
 }

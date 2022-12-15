@@ -1,4 +1,4 @@
-module hawqal
+module github.com/CapregSoft/Hawqal-go
 
 go 1.18
 

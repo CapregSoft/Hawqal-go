@@ -1,35 +1,36 @@
 package db
 
 import (
-    "database/sql"
-    "log"
-	mod "hawqal/models"
+	"database/sql"
+	"log"
+
+	"github.com/CapregSoft/Hawqal-go/models"
 )
 
 // GetCountries function
-func GetCountries(db *sql.DB) ([]mod.Countries, error) {
-    rows, err := db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+func GetCountriesDB(db *sql.DB) ([]*models.Countries, error) {
+	rows, err := db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    countries := []mod.Countries{}
-    for rows.Next() {
-        var country mod.Countries
-        err := rows.Scan(&country.CountryID, &country.CountryName)
-        if err != nil {
-            return nil, err
-        }
-        countries = append(countries, country)
-    }
+	countries := make([]*models.Countries, 0)
+	for rows.Next() {
+		var country models.Countries
+		err := rows.Scan(&country.CountryID, &country.CountryName)
+		if err != nil {
+			return nil, err
+		}
+		countries = append(countries, &country)
+	}
 
-    err = rows.Err()
-    if err != nil {
-        // Handle the error.
-        log.Fatalf("Error executing query: %v", err)
-        return nil, err
-    }
+	err = rows.Err()
+	if err != nil {
+		// Handle the error.
+		log.Fatalf("Error executing query: %v", err)
+		return nil, err
+	}
 
-    return countries, nil
+	return countries, nil
 }
