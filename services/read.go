@@ -71,5 +71,5 @@ func GetCitiesData() {
 
 	}
 
-	defer database(&DBConnections{}).Close()
+	defer Database(&DBConnections{}).Close()
 }

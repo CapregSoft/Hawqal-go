@@ -10,8 +10,8 @@ func main() {
 	dt.GetCountriesData()
 
 	// ! Get states.
-	dt.GetStatesData()
+	// dt.GetStatesData()
 
 	// ! Get cities.
-	dt.GetCitiesData()
+	// dt.GetCitiesData()
 }
