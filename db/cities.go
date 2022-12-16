@@ -3,32 +3,43 @@ package db
 import (
 	"database/sql"
 	"log"
-	mod "hawqal/models"
+
+	"github.com/CapregSoft/Hawqal-go/models"
 )
 
-// GetCities function
-func GetCities(db *sql.DB) ([]mod.Cities, error) {
+/*
+   GetCitiesDB() function is supposed to get the cities from the sqlite db.
+   This function then return the structure which contains  all the cities
+*/
+
+func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
+	//db.Query() returns the rows after selecting attributes from cities table
 	rows, err := db.Query("SELECT country_id, country_name, state_id, city_id, name FROM cities")
 	if err != nil {
 		return nil, err
 	}
+	// defer closes rows after the function executes
 	defer rows.Close()
 
-	cities := []mod.Cities{}
+	//creating cities dynamically
+	cities := make([]*models.Cities, 0)
 	for rows.Next() {
-		var city mod.Cities
+		//interate till last rows
+		var city models.Cities
+
+		//Scan() functions scans and returns an err if scan fails
 		err := rows.Scan(&city.CountryID, &city.CountryName, &city.StateID, &city.CityID, &city.CityName)
 		if err != nil {
 			return nil, err
 		}
-		cities = append(cities, city)
+		//appened city into an dynamic cities
+		cities = append(cities, &city)
 	}
-
 	err = rows.Err()
 	if err != nil {
-		// Handle the error.
 		log.Fatalf("Error executing query: %v", err)
 		return nil, err
 	}
+	//returns an dynamically created array of cities
 	return cities, nil
 }
