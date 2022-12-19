@@ -9,9 +9,9 @@ import (
 )
 
 /*
-this file is suppposed to run the example test for the project.
-where it will get the data from the hawqal module
-which retreives the data from (sourse) sqlite Database.
+	This file is suppposed to run the example test for the project.
+	Where it will get the data from the hawqal module
+	Which retreives the data from (sourse) sqlite Database.
 */
 
 func main() {

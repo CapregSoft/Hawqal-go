@@ -27,3 +27,11 @@ type Cities struct {
 	CityID      *int    `db:"city_id"`
 	CityName    *string `db:"name"`
 }
+
+//Declaring Constants For Test Cases
+//Of Countries-States & Cities
+const (
+	TotalCountries = 250
+	TotalCities    = 150710
+	TotalStates    = 4989
+)
