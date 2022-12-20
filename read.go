@@ -62,8 +62,50 @@ func GetCitiesData() ([]*models.Cities, error) {
 		log.Fatalf("Error executing query: %v", err)
 	}
 	//defer executes at when the function executes
-	//USer with the function inm order to close the connection to database
-	defer Database(&DBConnection{}).Close()
+	//Uses with the function in order to close the connection to database
+	// defer Database(&DBConnection{}).Close()
 
+	return cities, nil
+}
+
+//GetStatesByCountry accepts the country name as a paramater .
+//return the states for the specific country name
+func GetStatesByCountry(country string) ([]*models.States, error) {
+
+	states, err := db.GetStatesByCountryDB(Database(&DBConnection{}), country)
+
+	if err != nil {
+		log.Fatalf("Error executing query: %v", err)
+	}
+	return states, nil
+}
+
+//GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
+//Accepts the param of string as a country name
+//And returns to the example module with array []*models.Cities
+func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
+
+	cities, err := db.GetCitiesByCountry(Database(&DBConnection{}), country)
+
+	if err != nil {
+		log.Fatalf("Error executing query: %v", err)
+	}
+	return cities, nil
+}
+
+//GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
+//Accepts the param of string as a country name
+//And returns to the example module with array []*models.Cities
+func GetCitiesByState(state string) ([]*models.Cities, error) {
+
+	cities, err := db.GetCitiesByStateDB(Database(&DBConnection{}), state)
+
+	if err != nil {
+		log.Fatalf("Error executing query: %v", err)
+	}
+	//defer executes at when the function executes
+	//Uses with the function in order to close the connection to database
+	// defer Database(&DBConnection{}).Close()
+	defer Database(&DBConnection{}).Close()
 	return cities, nil
 }
