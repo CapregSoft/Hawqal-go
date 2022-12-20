@@ -1,85 +1,98 @@
 package services
 
 import (
-	"log"
+	"fmt"
 
 	db "github.com/CapregSoft/Hawqal-go/db"
-	conn "github.com/CapregSoft/Hawqal-go/db_migrator"
 	"github.com/CapregSoft/Hawqal-go/models"
-
-	_ "github.com/mattn/go-sqlite3"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
-/*
-	The file read.go stimulates the services for the Hawqal-go package
-	The functions Gets the data from the sqliteDB and store into the models-structures
-*/
-
-//GetCountriesData retreives the data from DB module
-//And returns to the example module w.r.t []*models.Country array
+// GetCountriesData retreives the data from Database module
+// and return as a []*models.Country.
 func GetCountriesData() ([]*models.Countries, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
-
-	//passed db as a paramater in order to connects to the db
-	countries, err := db.GetCountriesDB(dbConn)
-
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
 	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+		return nil, err
 	}
-	//Closes the connection at the end when the function executes
-	defer dbConn.Close()
+
+	// passed db as a paramater in order to connects to the db
+	countries, err := db.GetCountriesDB(conn)
+	if err != nil {
+		return nil, err
+	}
+
+	// closes the connection at the end when the function executes
+	defer conn.Close()
 	return countries, nil
 }
 
-//GetStatesData retreives the data from DB module GetStatesDB()
-//And returns to the example module including an array []*models.States
+// GetStatesData retreives the data from DB module GetStatesDB()
+// and return as a []*models.States.
 func GetStatesData() ([]*models.States, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
-
-	//passed db as a paramater in order to connects to the db
-	states, err := db.GetStatesDB(dbConn)
-
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
 	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+		return nil, err
 	}
-	defer dbConn.Close()
+
+	// passed db as a paramater in order to connects to the db
+	states, err := db.GetStatesDB(conn)
+	if err != nil {
+		return nil, err
+	}
+
+	// closes the connection at the end when the function executes
+	defer conn.Close()
 	return states, nil
 }
 
-//GetCitiesData retreives the data from DB module GetCitiesDB()
-//And returns to the example module with array []*models.Cities
+// GetCitiesData retreives the data from database module GetCitiesDB()
+// and return as a slice of Cities.
 func GetCitiesData() ([]*models.Cities, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
+	if err != nil {
+		return nil, err
+	}
 
 	//passed db as a paramater in order to connects to the db
-	cities, err := db.GetCitiesDB(dbConn)
-
+	cities, err := db.GetCitiesDB(conn)
 	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+		return nil, err
 	}
-	//defer executes at when the function executes
-	//Uses with the function in order to close the connection to database
+
+	// defer executes at when the function executes
+	// uses with the function in order to close the connection to database
 	// defer Database(&DBConnection{}).Close()
-	defer dbConn.Close()
+	defer conn.Close()
 	return cities, nil
 }
 
-//GetStatesByCountry accepts the country name as a paramater .
-//return the states for the specific country name
+// GetStatesByCountry accepts the country name as a paramater .
+// return the states for the specific country name
 func GetStatesByCountry(country string) ([]*models.States, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
-
-	//passed *sql.db as a paramater in order to connects to the db
-	states, err := db.GetStatesByCountryDB(dbConn, country)
-
-	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+	if len(country) == 0 {
+		return nil, fmt.Errorf("country is required")
 	}
-	defer dbConn.Close()
+	// the pkg cases & language used to convert the first letter to pascal case
+	statePascalCase := cases.Title(language.Und).String(country)
+
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	// passed db as a paramater in order to connects to the database.
+	states, err := db.GetStatesByCountryDB(conn, statePascalCase)
+	if err != nil {
+		return nil, err
+	}
+
+	defer conn.Close()
 	return states, nil
 }
 
@@ -87,37 +100,52 @@ func GetStatesByCountry(country string) ([]*models.States, error) {
 //Accepts the param of string as a country name
 //And returns to the example module with array []*models.Cities
 func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
-
-	//passed db as a paramater in order to connects to the db
-
-	cities, err := db.GetCitiesByCountry(dbConn, country)
-
-	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+	if len(country) == 0 {
+		return nil, fmt.Errorf("country is required")
 	}
-	defer dbConn.Close()
+	// the pkg cases & language used to convert the first letter to pascal case
+	statePascalCase := cases.Title(language.Und).String(country)
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	// passed db as a paramater in order to connects to the database.
+	cities, err := db.GetCitiesByCountry(conn, statePascalCase)
+	if err != nil {
+		return nil, err
+	}
+
+	defer conn.Close()
 	return cities, nil
 }
 
-//GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
-//Accepts the param of string as a country name
-//And returns to the example module with array []*models.Cities
+// GetCitiesByState retreives the data from database module GetCitiesByStateDB()
+// that accepts the param as a string of country name and
+// returns array of []*models.Cities
 func GetCitiesByState(state string) ([]*models.Cities, error) {
-	//DbConnection() connects to the db in order to retreive the data from it.
-	var dbConn = conn.DBConnection()
-
-	//passed db as a paramater in order to connects to the db
-
-	cities, err := db.GetCitiesByStateDB(dbConn, state)
-
-	if err != nil {
-		log.Fatalf("Error executing query: %v", err)
+	if len(state) == 0 {
+		return nil, fmt.Errorf("state is required")
 	}
-	//defer executes at when the function executes
-	//Uses with the function in order to close the connection to database
+	// the pkg cases & language used to convert the first letter to pascal case
+	statePascalCase := cases.Title(language.Und).String(state)
+
+	// connects to the database in order to retreive the data from it.
+	conn, err := db.DBConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	// passed db as a paramater in order to connects to the db
+	cities, err := db.GetCitiesByStateDB(conn, statePascalCase)
+	if err != nil {
+		return nil, err
+	}
+
+	// defer executes at when the function executes
+	// uses with the function in order to close the connection to database
 	// defer DBConnection().Close()
-	defer dbConn.Close()
+	defer conn.Close()
 	return cities, nil
 }
