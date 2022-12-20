@@ -1,7 +1,6 @@
 package services
 
 import (
-	"database/sql"
 	"log"
 
 	db "github.com/CapregSoft/Hawqal-go/db"
@@ -16,47 +15,47 @@ import (
 	The functions Gets the data from the sqliteDB and store into the models-structures
 */
 
-//conn.DbConnection() opens the sqlitDB File
-var dbConn = conn.DBConnection()
-
-//structure created for db-connection
-type DBConnection struct {
-	db *sql.DB
-}
-
-//the function returns the Database connection
-func Database(conn *DBConnection) *sql.DB {
-	conn.db = dbConn
-	return conn.db
-}
-
 //GetCountriesData retreives the data from DB module
 //And returns to the example module w.r.t []*models.Country array
 func GetCountriesData() ([]*models.Countries, error) {
-	countries, err := db.GetCountriesDB(Database(&DBConnection{}))
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
+
+	//passed db as a paramater in order to connects to the db
+	countries, err := db.GetCountriesDB(dbConn)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
+	//Closes the connection at the end when the function executes
+	defer dbConn.Close()
 	return countries, nil
 }
 
 //GetStatesData retreives the data from DB module GetStatesDB()
 //And returns to the example module including an array []*models.States
 func GetStatesData() ([]*models.States, error) {
-	states, err := db.GetStatesDB(Database(&DBConnection{}))
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
+
+	//passed db as a paramater in order to connects to the db
+	states, err := db.GetStatesDB(dbConn)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
+	defer dbConn.Close()
 	return states, nil
 }
 
 //GetCitiesData retreives the data from DB module GetCitiesDB()
 //And returns to the example module with array []*models.Cities
 func GetCitiesData() ([]*models.Cities, error) {
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
 
-	cities, err := db.GetCitiesDB(Database(&DBConnection{}))
+	//passed db as a paramater in order to connects to the db
+	cities, err := db.GetCitiesDB(dbConn)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
@@ -64,19 +63,23 @@ func GetCitiesData() ([]*models.Cities, error) {
 	//defer executes at when the function executes
 	//Uses with the function in order to close the connection to database
 	// defer Database(&DBConnection{}).Close()
-
+	defer dbConn.Close()
 	return cities, nil
 }
 
 //GetStatesByCountry accepts the country name as a paramater .
 //return the states for the specific country name
 func GetStatesByCountry(country string) ([]*models.States, error) {
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
 
-	states, err := db.GetStatesByCountryDB(Database(&DBConnection{}), country)
+	//passed *sql.db as a paramater in order to connects to the db
+	states, err := db.GetStatesByCountryDB(dbConn, country)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
+	defer dbConn.Close()
 	return states, nil
 }
 
@@ -84,12 +87,17 @@ func GetStatesByCountry(country string) ([]*models.States, error) {
 //Accepts the param of string as a country name
 //And returns to the example module with array []*models.Cities
 func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
 
-	cities, err := db.GetCitiesByCountry(Database(&DBConnection{}), country)
+	//passed db as a paramater in order to connects to the db
+
+	cities, err := db.GetCitiesByCountry(dbConn, country)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
+	defer dbConn.Close()
 	return cities, nil
 }
 
@@ -97,15 +105,19 @@ func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
 //Accepts the param of string as a country name
 //And returns to the example module with array []*models.Cities
 func GetCitiesByState(state string) ([]*models.Cities, error) {
+	//DbConnection() connects to the db in order to retreive the data from it.
+	var dbConn = conn.DBConnection()
 
-	cities, err := db.GetCitiesByStateDB(Database(&DBConnection{}), state)
+	//passed db as a paramater in order to connects to the db
+
+	cities, err := db.GetCitiesByStateDB(dbConn, state)
 
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
 	//defer executes at when the function executes
 	//Uses with the function in order to close the connection to database
-	// defer Database(&DBConnection{}).Close()
-	defer Database(&DBConnection{}).Close()
+	// defer DBConnection().Close()
+	defer dbConn.Close()
 	return cities, nil
 }
