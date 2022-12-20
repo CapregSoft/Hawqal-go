@@ -6,6 +6,8 @@ import (
 
 	//imported hawqal module in order to fetch the functions
 	hawqal "github.com/CapregSoft/Hawqal-go"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 /*
@@ -16,7 +18,7 @@ import (
 
 func main() {
 
-	//countries varable is an array of type []*models.Countries
+	//	countries varable is an array of type []*models.Countries
 	//contains all the country-name & country-id
 	countries, err := hawqal.GetCountriesData()
 	if err != nil {
@@ -65,4 +67,25 @@ func main() {
 		fmt.Printf("City :: %v - Country :: %v \n", *city.CityName, *city.CountryName)
 	}
 
+	//country name in order to serach for states
+	countryName := "Pakistan"
+
+	//The pkg cases &b language used to convert the first letter to upper case
+	toUpperCase := cases.Title(language.Und).String(countryName)
+	statesByCountry, err := hawqal.GetStatesByCountry(toUpperCase)
+	if err != nil {
+		//validating the error
+		//if error occurs prompt the error
+		log.Fatalf("Error %v", err)
+	}
+
+	if toUpperCase != "" {
+		fmt.Print("\nStates For Country :: ", toUpperCase)
+		//loop iteration through the []*models.States array.
+		for _, state := range statesByCountry {
+			//the variable state holds the data of specific state
+			//Follwed by the state name & its specific Id - country name
+			fmt.Printf("\nState :: %v  ", *state.StateName)
+		}
+	}
 }
