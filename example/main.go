@@ -112,7 +112,7 @@ func main() {
 	}
 
 	//city country name in order to serach for states
-	stateName := "Sindh"
+	stateName := "Balochistan"
 
 	//The pkg cases & language used to convert the first letter to upper case
 	stateUpperCase := cases.Title(language.Und).String(stateName)
@@ -124,7 +124,7 @@ func main() {
 	}
 
 	if stateUpperCase != "" {
-		fmt.Print("\nCities For State :: ", stateUpperCase)
+		fmt.Print("\n\nCities For State :: ", stateUpperCase)
 		//loop iteration through the []*models.States array.
 		for _, city := range citiesByState {
 			//the variable state holds the data of specific state
