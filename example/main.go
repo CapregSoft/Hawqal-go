@@ -110,4 +110,26 @@ func main() {
 			fmt.Printf("\nCities :: %v  ", *city.CityName)
 		}
 	}
+
+	//city country name in order to serach for states
+	stateName := "Sindh"
+
+	//The pkg cases & language used to convert the first letter to upper case
+	stateUpperCase := cases.Title(language.Und).String(stateName)
+	citiesByState, err := hawqal.GetCitiesByState(stateUpperCase)
+	if err != nil {
+		//validating the error
+		//if error occurs prompt the error
+		log.Fatalf("Error %v", err)
+	}
+
+	if stateUpperCase != "" {
+		fmt.Print("\nCities For State :: ", stateUpperCase)
+		//loop iteration through the []*models.States array.
+		for _, city := range citiesByState {
+			//the variable state holds the data of specific state
+			//Follwed by the state name & its specific Id - country name
+			fmt.Printf("\nCities :: %v  ", *city.CityName)
+		}
+	}
 }
