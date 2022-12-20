@@ -1,8 +1,8 @@
 
 # Hawqal-Go
-![Version](https://badge.fury.io/gh/imgix%2Fimgix-go.svg)
-[![Build Status](https://travis-ci.com/imgix/imgix-go.svg?branch=main)](https://travis-ci.com/imgix/imgix-go)
+[![GitHub version](https://badge.fury.io/gh/CapregSoft%2FHawqal-go.svg)](https://badge.fury.io/gh/CapregSoft%2FHawqal-go)
 [![Godoc](https://godoc.org/github.com/CapregSoft/Hawqal-go?status.svg)](https://godoc.org/github.com/CapregSoft/Hawqal-go)
+<!---- [![Build Status](https://travis-ci.com/imgix/imgix-go.svg?branch=main)](https://travis-ci.com/imgix/imgix-go) --->
 ##
 The Golang package that contains the data of world's countries,states and their cities name.This package provide you to get the data of countries, cities & states
 ## Functions
