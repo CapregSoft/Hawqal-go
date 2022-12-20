@@ -77,9 +77,22 @@ func GetStatesByCountry(country string) ([]*models.States, error) {
 	if err != nil {
 		log.Fatalf("Error executing query: %v", err)
 	}
-	//defer executes at when the function executes
-	//USer with the function inm order to close the connection to database
-	defer Database(&DBConnection{}).Close()
-
 	return states, nil
+}
+
+//GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
+//Accepts the param of string as a country name
+//And returns to the example module with array []*models.Cities
+func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
+
+	cities, err := db.GetCitiesByCountry(Database(&DBConnection{}), country)
+
+	if err != nil {
+		log.Fatalf("Error executing query: %v", err)
+	}
+	//defer executes at when the function executes
+	//Uses with the function in order to close the connection to database
+	// defer Database(&DBConnection{}).Close()
+	defer Database(&DBConnection{}).Close()
+	return cities, nil
 }
