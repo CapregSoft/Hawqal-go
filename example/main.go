@@ -8,19 +8,12 @@ import (
 	hawqal "github.com/CapregSoft/Hawqal-go"
 )
 
-/*
-	This file is suppposed to run the example test for the project.
-	Where it will get the data from the hawqal module
-	Which retreives the data from (sourse) sqlite Database.
-*/
-
 func main() {
 
 	// countries varable is an array of type []*models.Countries
 	// contains all the country-name & country-id
 	countries, err := hawqal.GetCountriesData()
 	if err != nil {
-		//validating the error
 		log.Fatalf("Error %v", err)
 	}
 	fmt.Print("Country")
@@ -84,17 +77,27 @@ func main() {
 		//if error occurs prompt the error
 		log.Fatalf("Error %v", err)
 	}
-	fmt.Print("cities ", citiesByCountry)
+	fmt.Print("Cities For Country ", citiesCountryName)
+	//loop iteration through the []*models.Cities array.
+	for _, city := range citiesByCountry {
+		//the variable city holds the data of specific city *models.Cities
+		//Follwed by the city name & its City Id - country name
+		fmt.Printf("City :: %v \n", *city.CityName)
+	}
 
 	//city country name in order to serach for states
 	stateName := "Balochistan"
 
 	citiesByState, err := hawqal.GetCitiesByState(stateName)
 	if err != nil {
-		//validating the error
-		//if error occurs prompt the error
 		log.Fatalf("Error %v", err)
 	}
 
-	fmt.Printf("cities: %v  ", citiesByState)
+	fmt.Print("Cities For State ", stateName)
+	//loop iteration through the []*models.Cities array.
+	for _, city := range citiesByState {
+		//the variable city holds the data of specific city *models.Cities
+		//Follwed by the city name & its City Id - country name
+		fmt.Printf("City :: %v \n", *city.CityName)
+	}
 }

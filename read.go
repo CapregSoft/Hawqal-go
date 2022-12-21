@@ -25,7 +25,6 @@ func GetCountriesData() ([]*models.Countries, error) {
 	}
 
 	// closes the connection at the end when the function executes
-	defer conn.Close()
 	return countries, nil
 }
 
@@ -45,7 +44,6 @@ func GetStatesData() ([]*models.States, error) {
 	}
 
 	// closes the connection at the end when the function executes
-	defer conn.Close()
 	return states, nil
 }
 
@@ -67,7 +65,6 @@ func GetCitiesData() ([]*models.Cities, error) {
 	// defer executes at when the function executes
 	// uses with the function in order to close the connection to database
 	// defer Database(&DBConnection{}).Close()
-	defer conn.Close()
 	return cities, nil
 }
 
@@ -92,7 +89,6 @@ func GetStatesByCountry(country string) ([]*models.States, error) {
 		return nil, err
 	}
 
-	defer conn.Close()
 	return states, nil
 }
 
@@ -117,7 +113,6 @@ func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
 		return nil, err
 	}
 
-	defer conn.Close()
 	return cities, nil
 }
 
@@ -142,10 +137,5 @@ func GetCitiesByState(state string) ([]*models.Cities, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// defer executes at when the function executes
-	// uses with the function in order to close the connection to database
-	// defer DBConnection().Close()
-	defer conn.Close()
 	return cities, nil
 }
