@@ -25,13 +25,13 @@ hawqal.GetStatesByCountry(CountryName)      //Returns States for specific countr
 hawqal.GetCitiesByCountryData(CountryName)  //Returns Cities for specific country.
 hawqal.GetCitiesByState(StateName)      //Returns Cities for specific State.
 ```
-## Success Response
+## Response
 ```bash
 - Countries : ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', . . . ]
 - States : ['Alabama', 'Alaska', 'American Samoa', 'Arizona', . . . ]
 - Cities : ['Haripur','Abbotabad','WahCantt','Topi',........]
 ```
-## Tech Used
+## Language
 - Golang 1.18
 ## Authors
 - [Capregsoft](https://www.github.com/capregsoft)
