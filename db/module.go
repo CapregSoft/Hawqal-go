@@ -14,7 +14,7 @@ import (
 */
 func DBConnection() (*sql.DB, error) {
 	// connection to the database.
-	db, err := sql.Open("sqlite3", "./hawqalDB.sqlite")
+	db, err := sql.Open("sqlite3", "../hawqalDB.sqlite")
 	if err != nil {
 		// handle the error.
 		return nil, fmt.Errorf("failed to connect database: %v", err)
