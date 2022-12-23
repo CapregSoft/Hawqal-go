@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/CapregSoft/Hawqal-go/models"
@@ -11,9 +10,9 @@ import (
    GetCitiesByCountry() function is supposed to get the cities by country name from the sqlite db
    and return them as a slice of Cities.
 */
-func GetCitiesByStateDB(db *sql.DB, state string) ([]*models.Cities, error) {
+func GetCitiesByStateDB(c *Database, state string) ([]*models.Cities, error) {
 	//db.Query() returns the rows after selecting attributes from cities table
-	rows, err := db.Query(`SELECT cities.name FROM cities,states WHERE cities.state_id = states.state_id AND States.name =$1`, state)
+	rows, err := c.db.Query(`SELECT cities.name FROM cities,states WHERE cities.state_id = states.state_id AND States.name =$1`, state)
 	if err != nil {
 		return nil, err
 	}

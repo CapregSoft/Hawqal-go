@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/CapregSoft/Hawqal-go/models"
@@ -11,10 +10,10 @@ import (
    GetCountriesDB is supposed to get the countries from the sqlite db
    and return them as a slice of Countries.
 */
-func GetCountriesDB(db *sql.DB) ([]*models.Countries, error) {
+func GetCountriesDB(c *Database) ([]*models.Countries, error) {
 
 	// db.Query returns the rows after selecting attributes from countries table
-	rows, err := db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
+	rows, err := c.db.Query("SELECT country_id, country_name FROM countries ORDER BY country_id ASC")
 	if err != nil {
 		return nil, err
 	}

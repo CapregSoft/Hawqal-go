@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/CapregSoft/Hawqal-go/models"
@@ -11,10 +10,10 @@ import (
    GetStatesDB function is supposed to get the states from the sqlite db and
    return them as a slice of States.
 */
-func GetStatesDB(db *sql.DB) ([]*models.States, error) {
+func GetStatesDB(c *Database) ([]*models.States, error) {
 
 	//db.Query() returns the rows after selecting attributes from states table
-	rows, err := db.Query("SELECT country_id, country_name, state_id, name FROM states")
+	rows, err := c.db.Query("SELECT country_id, country_name, state_id, name FROM states")
 	if err != nil {
 		return nil, err
 	}

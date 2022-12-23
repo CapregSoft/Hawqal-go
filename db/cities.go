@@ -1,7 +1,7 @@
 package db
 
 import (
-	"database/sql"
+	
 	"fmt"
 
 	"github.com/CapregSoft/Hawqal-go/models"
@@ -11,9 +11,9 @@ import (
    GetCitiesDB() function is supposed to get the cities from the sqlite db
    and return them as a slice of Cities.
 */
-func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
+func GetCitiesDB(c *Database) ([]*models.Cities, error) {
 	//db.Query() returns the rows after selecting attributes from cities table
-	rows, err := db.Query("SELECT country_id, country_name, state_id, city_id, name FROM cities")
+	rows, err := c.db.Query("SELECT country_id, country_name, state_id, city_id, name FROM cities")
 	if err != nil {
 		return nil, err
 	}
