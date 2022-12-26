@@ -14,7 +14,7 @@ import (
    DBConnection is further used to fetch the data from database.
 */
 func DBConnection() (*sql.DB, error) {
-	databaseFile := "../hawqalDB.sqlite"
+	databaseFile := "./hawqalDB.sqlite"
 	if _, err := os.Stat(databaseFile); os.IsNotExist(err) {
 		return nil, fmt.Errorf("database file does not exist")
 	}
