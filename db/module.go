@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -13,8 +14,13 @@ import (
    DBConnection is further used to fetch the data from database.
 */
 func DBConnection() (*sql.DB, error) {
+	databaseFile := "../hawqalDB.sqlite"
+	if _, err := os.Stat(databaseFile); os.IsNotExist(err) {
+		return nil, fmt.Errorf("database file does not exist")
+	}
+
 	// connection to the database.
-	db, err := sql.Open("sqlite3", "../hawqalDB.sqlite")
+	db, err := sql.Open("sqlite3", databaseFile)
 	if err != nil {
 		// handle the error.
 		return nil, fmt.Errorf("failed to connect database: %v", err)
