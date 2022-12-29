@@ -35,6 +35,5 @@ For more information, additional examples and functionality, see the [Hawqal Doc
 - [Contribution Guidelines](https://github.com/CapregSoft/Hawqal-go/blob/master/CONTRIBUTING.md)
 
 
-I hope this helps! Let me know if you have any further questions.
-
+I hope this will help you! Let me know if you have any further queries!
 
