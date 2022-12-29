@@ -9,30 +9,31 @@ The Golang package that contains the data of world's countries,states and their 
 - Get Countries
 - Get States
 - Get Cities
-- Get Cities By State
-- Get State By Country
-- Get Cities By Country
+
 ## Get Started
+
+To install the Hawqal-go package, use the following command:
+
 ```golang
 go get github.com/CapregSoft/Hawqal-go
 ```
 ## Features/Example
-```golang
-hawqal.GetCountriesData()   //Returns all the countries & error
-hawqal.GetStatesData()     //Returns States & error
-hawqal.GetCitiesData()     //Returns all cities & error (if failure occurs)
-hawqal.GetStatesByCountry(CountryName)      //Returns States for specific country.
-hawqal.GetCitiesByCountryData(CountryName)  //Returns Cities for specific country.
-hawqal.GetCitiesByState(StateName)      //Returns Cities for specific State.
-```
-## Response
-```bash
-- Countries : ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', . . . ]
-- States : ['Alabama', 'Alaska', 'American Samoa', 'Arizona', . . . ]
-- Cities : ['Haripur','Abbotabad','WahCantt','Topi',........]
-```
+For more information, additional examples and functionality, see the [Hawqal Documentation](https://hawqal.capregsoft.com).
+
+
 ## Language
 - Golang 1.18
 ## Authors
 - [Capregsoft](https://www.github.com/capregsoft)
 - [Ahmed Saleem](https://www.github.com/malikahmed2z2)
+
+## Additional Resources
+
+- [Changelog](https://github.com/CapregSoft/Hawqal-go/blob/master/CHANGELOG.md)
+- [Code of Conduct](https://github.com/CapregSoft/Hawqal-go/blob/master/CODE_OF_CONDUCT.md)
+- [Collaborator Guide](https://github.com/CapregSoft/Hawqal-go/blob/master/COLLABORATOR_GUIDE.md)
+- [Contribution Guidelines](https://github.com/CapregSoft/Hawqal-go/blob/master/CONTRIBUTING.md)
+
+
+I hope this will help you! Let me know if you have any further queries!
+
