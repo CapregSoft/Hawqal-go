@@ -13,7 +13,7 @@ import (
 */
 func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
 	//db.Query() returns the rows after selecting attributes from cities table
-	rows, err := db.Query("SELECT country_id, country_name, state_id, city_id, name FROM cities")
+	rows, err := db.Query("SELECT country_name, state_id, city_id, city_name FROM cities")
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func GetCitiesDB(db *sql.DB) ([]*models.Cities, error) {
 		var city models.Cities
 
 		// scan function scans and returns an err if scan fails
-		err := rows.Scan(&city.CountryID, &city.CountryName, &city.StateID, &city.CityID, &city.CityName)
+		err := rows.Scan(&city.CountryName, &city.StateID, &city.CityID, &city.CityName)
 		if err != nil {
 			return nil, err
 		}

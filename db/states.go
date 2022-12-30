@@ -14,7 +14,7 @@ import (
 func GetStatesDB(db *sql.DB) ([]*models.States, error) {
 
 	//db.Query() returns the rows after selecting attributes from states table
-	rows, err := db.Query("SELECT country_id, country_name, state_id, name FROM states")
+	rows, err := db.Query("SELECT country_name, state_id, state_name FROM states")
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func GetStatesDB(db *sql.DB) ([]*models.States, error) {
 		var state models.States
 
 		// scan functions scans and returns an err if scan fails
-		err := rows.Scan(&state.CountryID, &state.CountryName, &state.StateID, &state.StateName)
+		err := rows.Scan(&state.CountryName, &state.StateID, &state.StateName)
 		if err != nil {
 			return nil, err
 		}
