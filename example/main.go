@@ -22,24 +22,25 @@ func main() {
 	//Iterate through the countries array.
 	for _, country := range countries {
 		//the variable country holds the one country city_name &  its specific Id
-		fmt.Printf("\n\n Country :: %v     ", *country.CountryName)
+		fmt.Printf("\n\n Country :: %v", *country.CountryName)
 	}
-	//Get the extra attributes of the countries by passing filter as a
-	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.Option{CountryName: "Pakistan", Region: false, Capital: false, Currency: false, CountryTime: false, CountryCoordinates: false})
+	// //Get the extra attributes of the countries by passing filter as a
+	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.Option{CountryName: "", Region: true, Capital: true, Currency: true, CountryTime: true, CountryCoordinates: true})
 	if err != nil {
 		log.Fatalf("Error %v", err)
 	}
-	// fmt.Print("\n\n\nWith Currency", CountriesWithAttributtes[0])
-
-	//Iterate through the countries array.
+	fmt.Print(CountriesWithAttributtes)
+	//Iterate through the countries array
 	for _, country := range CountriesWithAttributtes {
 		//the variable country holds the one country city_name &  its specific Id
 		fmt.Printf("\n\n Country :: %v", *country)
 	}
 
-	//states varable is an array of type []*models.States
-	//contains data of country-states & states-id
-	states, err := hawqal.GetStatesData()
+	// states varable is an array of type []*models.States
+	// contains data of country-states & states-id
+	statesCorrdinates := true
+
+	states, err := hawqal.GetStatesData(&models.Option{CountryName: "", StatesCoordinates: statesCorrdinates})
 	if err != nil {
 		//validating the error
 		//if error occurs prompt the error
@@ -48,10 +49,18 @@ func main() {
 
 	fmt.Print("States")
 	//loop iteration through the []*models.States array.
-	for _, state := range states {
-		//the variable state holds the data of specific state
-		//Follwed by the state name & its specific Id - country city_name
-		fmt.Printf("State :: %v - Country :: %v \n", *state.StateName, *state.CountryName)
+	if statesCorrdinates {
+		for _, state := range states {
+			//the variable state holds the data of specific state
+			//Follwed by the state name & its specific Id - country city_name
+			fmt.Printf("State :: %v -  Longitude:  %v   Latitude:  %v \n", *state.StateName, *state.StatesLongitude, *state.StatesLatitude)
+		}
+	} else {
+		for _, state := range states {
+			//the variable state holds the data of specific state
+			//Follwed by the state name & its specific Id - country city_name
+			fmt.Printf("State :: %v   \n", *state.StateName)
+		}
 	}
 
 	//cities varable is an array of type []*models.Cities
