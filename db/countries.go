@@ -20,7 +20,7 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 		if choice.Currency {
 			if choice.CountryName != "" {
 				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name, currency, currency_city_name, currency_symbol from countries where country_name=$1`, statePascalCase)
+				rows, err := db.Query(`SELECT country_name, currency, currency_name, currency_symbol from countries where country_name=$1`, statePascalCase)
 				if err != nil {
 					return nil, fmt.Errorf("error %v", err)
 				}
@@ -33,14 +33,14 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 
 					// interate till last rows
 					// scan function scans and returns an err if scan fails
-					err := rows.Scan(&country.CountryName, &country.Currency, &country.Currencycity_name, &country.CurrencySymbol)
+					err := rows.Scan(&country.CountryName, &country.Currency, &country.CurrencyName, &country.CurrencySymbol)
 					if err != nil {
 						return nil, err
 					}
 					countries = append(countries, &country)
 				}
 			} else {
-				rows, err := db.Query(`SELECT country_name, currency, currency_city_name, currency_symbol from countries`)
+				rows, err := db.Query(`SELECT country_name, currency, currency_name, currency_symbol from countries`)
 				if err != nil {
 					return nil, fmt.Errorf("error  %v", err)
 				}
@@ -54,7 +54,7 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 					// interate till last rows
 
 					// scan function scans and returns an err if scan fails
-					err := rows.Scan(&country.CountryName, &country.Currency, &country.Currencycity_name, &country.CurrencySymbol)
+					err := rows.Scan(&country.CountryName, &country.Currency, &country.CurrencyName, &country.CurrencySymbol)
 					if err != nil {
 						return nil, err
 					}
@@ -149,7 +149,7 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 		}
 
 		if choice.CountryTime {
-			if choice.CountryName != "" {
+			if choice.CountryName != " " {
 				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
 				rows, err := db.Query(`SELECT country_name, timezone ,zone_city, UTC from countries where country_name=$1 `, statePascalCase)
 				if err != nil {
@@ -190,7 +190,7 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 		}
 
 		if choice.CountryCoordinates {
-			if choice.CountryName != "" {
+			if choice.CountryName != " " {
 				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
 				rows, err := db.Query(`SELECT country_name, longitude ,latitude from countries where country_name=$1 `, statePascalCase)
 				if err != nil {
@@ -229,7 +229,6 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 				}
 			}
 		}
-
 		return countries, nil
 	}
 	countries := make([]*models.Countries, 0)
@@ -252,9 +251,6 @@ func GetCountriesDB(db *sql.DB, choice *models.Option) ([]*models.Countries, err
 		}
 		// appened city into an dynamic countries
 		countries = append(countries, &country)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, fmt.Errorf("error getting countries from db: %s", err.Error())
 	}
 	// returns an dynamically created array of countries
 	return countries, nil

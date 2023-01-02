@@ -37,7 +37,7 @@ func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
 
 // GetStatesData retreives the data from DB module GetStatesDB()
 // and return as a []*models.States.
-func GetStatesData() ([]*models.States, error) {
+func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -45,13 +45,18 @@ func GetStatesData() ([]*models.States, error) {
 	}
 
 	// passed db as a paramater in order to connects to the db
-	states, err := db.GetStatesDB(conn)
+	if len(choice) == 0 {
+		states, err := db.GetStatesDB(conn, nil)
+		if err != nil {
+			return nil, err
+		}
+		return states, nil
+	}
+	statesData, err := db.GetStatesDB(conn, choice[0])
 	if err != nil {
 		return nil, err
 	}
-
-	// closes the connection at the end when the function executes
-	return states, nil
+	return statesData, nil
 }
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
