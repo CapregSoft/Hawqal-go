@@ -61,23 +61,24 @@ func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
 // and return as a slice of Cities.
-func GetCitiesData() ([]*models.Cities, error) {
+func GetCitiesData(choice ...*models.Option) ([]*models.Cities, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
 		return nil, err
 	}
-
-	//passed db as a paramater in order to connects to the db
-	cities, err := db.GetCitiesDB(conn)
+	if len(choice) == 0 {
+		cities, err := db.GetCitiesDB(conn, nil)
+		if err != nil {
+			return nil, err
+		}
+		return cities, nil
+	}
+	citiesData, err := db.GetCitiesDB(conn, choice[0])
 	if err != nil {
 		return nil, err
 	}
-
-	// defer executes at when the function executes
-	// uses with the function in order to close the connection to database
-	// defer Database(&DBConnection{}).Close()
-	return cities, nil
+	return citiesData, nil
 }
 
 // GetStatesByCountry accepts the country city_name as a paramater .

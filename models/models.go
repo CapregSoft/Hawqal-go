@@ -1,11 +1,12 @@
 package models
 
 /*
-    The package models defines the structure of countries,states,cities.
+    The package models defines the structure of countries,states,cities,option.
 	Which is supposed to store the countries,cities,states data.
+	Option struct created for filter purpose.
 */
 
-//Country Structure Added to store its specific id and country city_name
+//Country Structure Added to store the all the country data
 type Countries struct {
 	CountryName    *string `db:"country_name"`
 	Currency       *string `db:"currency"`
@@ -43,6 +44,11 @@ type Cities struct {
 	CitiesLongitude *string `db:"longitude"`
 }
 
+/*
+	Structure option created for advanced functionallities in Hawqal Package
+
+	Used option struct as a filter in three functions...
+*/
 type Option struct {
 	CountryName        string
 	Currency           bool
