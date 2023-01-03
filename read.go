@@ -11,26 +11,33 @@ import (
 
 // GetCountriesData retreives the data from Database module
 // and return as a []*models.Country.
-func GetCountriesData() ([]*models.Countries, error) {
+func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
 		return nil, err
 	}
-
+	//newCountry := make([]*models.Countries, 0)
+	// the pkg cases & language used to convert the first letter to pascal case
+	//statePascalCase := cases.Title(language.Und).String(choice[0].CountryName)
 	// passed db as a paramater in order to connects to the db
-	countries, err := db.GetCountriesDB(conn)
+	if len(choice) == 0 {
+		countries, err := db.GetCountriesDB(conn, nil)
+		if err != nil {
+			return nil, err
+		}
+		return countries, nil
+	}
+	countriesData, err := db.GetCountriesDB(conn, choice[0])
 	if err != nil {
 		return nil, err
 	}
-
-	// closes the connection at the end when the function executes
-	return countries, nil
+	return countriesData, nil
 }
 
 // GetStatesData retreives the data from DB module GetStatesDB()
 // and return as a []*models.States.
-func GetStatesData() ([]*models.States, error) {
+func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -38,38 +45,44 @@ func GetStatesData() ([]*models.States, error) {
 	}
 
 	// passed db as a paramater in order to connects to the db
-	states, err := db.GetStatesDB(conn)
+	if len(choice) == 0 {
+		states, err := db.GetStatesDB(conn, nil)
+		if err != nil {
+			return nil, err
+		}
+		return states, nil
+	}
+	statesData, err := db.GetStatesDB(conn, choice[0])
 	if err != nil {
 		return nil, err
 	}
-
-	// closes the connection at the end when the function executes
-	return states, nil
+	return statesData, nil
 }
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
 // and return as a slice of Cities.
-func GetCitiesData() ([]*models.Cities, error) {
+func GetCitiesData(choice ...*models.Option) ([]*models.Cities, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
 		return nil, err
 	}
-
-	//passed db as a paramater in order to connects to the db
-	cities, err := db.GetCitiesDB(conn)
+	if len(choice) == 0 {
+		cities, err := db.GetCitiesDB(conn, nil)
+		if err != nil {
+			return nil, err
+		}
+		return cities, nil
+	}
+	citiesData, err := db.GetCitiesDB(conn, choice[0])
 	if err != nil {
 		return nil, err
 	}
-
-	// defer executes at when the function executes
-	// uses with the function in order to close the connection to database
-	// defer Database(&DBConnection{}).Close()
-	return cities, nil
+	return citiesData, nil
 }
 
-// GetStatesByCountry accepts the country name as a paramater .
-// return the states for the specific country name
+// GetStatesByCountry accepts the country city_name as a paramater .
+// return the states for the specific country city_name
 func GetStatesByCountry(country string) ([]*models.States, error) {
 	if len(country) == 0 {
 		return nil, fmt.Errorf("country is required")
@@ -93,7 +106,7 @@ func GetStatesByCountry(country string) ([]*models.States, error) {
 }
 
 //GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
-//Accepts the param of string as a country name
+//Accepts the param of string as a country city_name
 //And returns to the example module with array []*models.Cities
 func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
 	if len(country) == 0 {
@@ -117,7 +130,7 @@ func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
 }
 
 // GetCitiesByState retreives the data from database module GetCitiesByStateDB()
-// that accepts the param as a string of country name and
+// that accepts the param as a string of country city_name and
 // returns array of []*models.Cities
 func GetCitiesByState(state string) ([]*models.Cities, error) {
 	if len(state) == 0 {
