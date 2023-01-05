@@ -13,7 +13,7 @@ import (
    GetCountriesDB is supposed to get the countries from the sqlite db
    and return them as a slice of Countries.
 */
-func GetCountriesDB(db *sql.DB, choice *models.CountriesFilter) ([]byte, error) {
+func GetCountriesDB(db *sql.DB, choice *models.CountryFilter) ([]byte, error) {
 
 	if choice != nil {
 		countries := make([]*models.Countries, 0)

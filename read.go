@@ -6,8 +6,8 @@ import (
 )
 
 // GetCountriesData retreives the data from Database module
-// and return as a []*models.Country.
-func GetCountriesData(choice ...*models.CountriesFilter) ([]byte, error) {
+// and return as a []byte after marshling into a json format
+func GetCountriesData(choice ...*models.CountryFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -30,8 +30,8 @@ func GetCountriesData(choice ...*models.CountriesFilter) ([]byte, error) {
 }
 
 // GetStatesData retreives the data from DB module GetStatesDB()
-// and return as a []*models.States.
-func GetStatesData(choice ...*models.StatesFilter) ([]byte, error) {
+// and return as a []byte after marshling into a json format
+func GetStatesData(choice ...*models.StateFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -55,8 +55,8 @@ func GetStatesData(choice ...*models.StatesFilter) ([]byte, error) {
 }
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
-// and return as a slice of Cities.
-func GetCitiesData(choice ...*models.CitiesFilter) ([]byte, error) {
+// and return as a []byte after marshling into a json format
+func GetCitiesData(choice ...*models.CityFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {

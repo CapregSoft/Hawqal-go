@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.CountriesFilter{CountryName: "pakistan"})
+	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.CountryFilter{CountryName: "pakistan"})
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
@@ -18,7 +18,7 @@ func main() {
 		fmt.Print(string(country))
 	}
 
-	states, err := hawqal.GetStatesData(&models.StatesFilter{CountryName: "pakistan", StatesCoordinates: true})
+	states, err := hawqal.GetStatesData(&models.StateFilter{CountryName: "pakistan", StatesCoordinates: true})
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
@@ -27,7 +27,7 @@ func main() {
 		fmt.Print(string(state))
 	}
 
-	cities, err := hawqal.GetCitiesData(&models.CitiesFilter{CountryName: "pakistan", StateName: "sindh", CityCoordinates: true})
+	cities, err := hawqal.GetCitiesData(&models.CityFilter{CountryName: "pakistan", StateName: "sindh", CityCoordinates: true})
 	if err != nil {
 		log.Fatalf("%v", err)
 	}

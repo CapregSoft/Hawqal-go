@@ -50,7 +50,7 @@ type Cities struct {
 
 	Used option struct as a filter in three functions...
 */
-type CountriesFilter struct {
+type CountryFilter struct {
 	CountryName        string
 	Currency           bool
 	Region             bool
@@ -67,12 +67,12 @@ const (
 	TotalStates    = 4989
 )
 
-type StatesFilter struct {
+type StateFilter struct {
 	CountryName       string
 	StatesCoordinates bool
 }
 
-type CitiesFilter struct {
+type CityFilter struct {
 	CountryName     string
 	StateName       string
 	CityCoordinates bool
