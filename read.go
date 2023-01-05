@@ -34,7 +34,7 @@ func GetCountriesData(choice ...*models.Filter) ([]byte, error) {
 
 // GetStatesData retreives the data from DB module GetStatesDB()
 // and return as a []*models.States.
-func GetStatesData(choice ...*models.Filter) ([]*models.States, error) {
+func GetStatesData(choice ...*models.Filter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -76,30 +76,6 @@ func GetCitiesData(choice ...*models.Filter) ([]*models.Cities, error) {
 		return nil, err
 	}
 	return citiesData, nil
-}
-
-// GetStatesByCountry accepts the country city_name as a paramater .
-// return the states for the specific country city_name
-func GetStatesByCountry(country string) ([]*models.States, error) {
-	if len(country) == 0 {
-		return nil, fmt.Errorf("country is required")
-	}
-	// the pkg cases & language used to convert the first letter to pascal case
-	statePascalCase := cases.Title(language.Und).String(country)
-
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
-	}
-
-	// passed db as a paramater in order to connects to the database.
-	states, err := db.GetStatesByCountryDB(conn, statePascalCase)
-	if err != nil {
-		return nil, err
-	}
-
-	return states, nil
 }
 
 //GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()

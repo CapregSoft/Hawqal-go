@@ -24,27 +24,13 @@ func main() {
 	// contains data of country-states & states-id
 	statesCorrdinates := true
 
-	states, err := hawqal.GetStatesData(&models.Filter{CountryName: "", StatesCoordinates: statesCorrdinates})
+	states, err := hawqal.GetStatesData(&models.Filter{CountryName: "pakistan", StatesCoordinates: statesCorrdinates})
 	if err != nil {
-		//validating the error
-		//if error occurs prompt the error
 		log.Fatalf("Error %v", err)
 	}
-
-	fmt.Print("States")
-	//loop iteration through the []*models.States array.
-	if statesCorrdinates {
-		for _, state := range states {
-			//the variable state holds the data of specific state
-			//Follwed by the state name & its specific Id - country city_name
-			fmt.Printf("State :: %v -  Longitude:  %v   Latitude:  %v \n", *state.StateName, *state.StatesLongitude, *state.StatesLatitude)
-		}
-	} else {
-		for _, state := range states {
-			//the variable state holds the data of specific state
-			//Follwed by the state name & its specific Id - country city_name
-			fmt.Printf("State :: %v   \n", *state.StateName)
-		}
+	fmt.Print("\nStates\n")
+	for _, state := range states {
+		fmt.Print(string(state))
 	}
 
 	cityCoordinates := false
@@ -73,17 +59,6 @@ func main() {
 		}
 	}
 
-	//country city_name in order to serach for states
-	CountryName := "Pakistan"
-
-	statesByCountry, err := hawqal.GetStatesByCountry(CountryName)
-	if err != nil {
-		//validating the error
-		//if error occurs prompt the error
-		log.Fatalf("Error %v", err)
-	}
-	fmt.Printf("states: %v  ", statesByCountry)
-	//city country city_name in order to serach for states
 	citiesCountryName := "Pakistan"
 
 	citiesByCountry, err := hawqal.GetCitiesByCountryData(citiesCountryName)
