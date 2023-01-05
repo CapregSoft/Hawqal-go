@@ -29,7 +29,7 @@ type Countries struct {
 type States struct {
 	CountryName     *string `db:"country_name,omitempty"`
 	StateID         *int    `db:"state_id,omitempty"`
-	StateName       *string `db:"name,omitempty"`
+	StateName       *string `db:"state_name,omitempty"`
 	StatesLatitude  *string `db:"latitude,omitempty"`
 	StatesLongitude *string `db:"longitude,omitempty"`
 }
@@ -38,6 +38,7 @@ type States struct {
 type Cities struct {
 	CountryName     *string `db:"country_name,omitempty"`
 	StateID         *int    `db:"state_id,omitempty"`
+	StateName       *string `db:"state_name,omitempty"`
 	CityID          *int    `db:"city_id,omitempty"`
 	CityName        *string `db:"city_name,omitempty"`
 	CitiesLatitude  *string `db:"latitude,omitempty"`
@@ -49,15 +50,13 @@ type Cities struct {
 
 	Used option struct as a filter in three functions...
 */
-type Filter struct {
+type CountriesFilter struct {
 	CountryName        string
 	Currency           bool
 	Region             bool
 	Capital            bool
 	CountryTime        bool
 	CountryCoordinates bool
-	CityCoordinates    bool
-	StatesCoordinates  bool
 }
 
 //Declaring Constants For Test Cases
@@ -67,3 +66,14 @@ const (
 	TotalCities    = 150710
 	TotalStates    = 4989
 )
+
+type StatesFilter struct {
+	CountryName       string
+	StatesCoordinates bool
+}
+
+type CitiesFilter struct {
+	CountryName     string
+	StateName       string
+	CityCoordinates bool
+}

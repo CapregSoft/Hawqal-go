@@ -4,24 +4,24 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/CapregSoft/Hawqal-go/models"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 /*
    GetCountriesDB is supposed to get the countries from the sqlite db
    and return them as a slice of Countries.
 */
-func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
+func GetCountriesDB(db *sql.DB, choice *models.CountriesFilter) ([]byte, error) {
 
 	if choice != nil {
 		countries := make([]*models.Countries, 0)
 		if choice.Currency {
 			if choice.CountryName != "" {
-				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name, currency, currency_name, currency_symbol from countries where country_name=$1`, statePascalCase)
+				choice.CountryName = strings.Title(choice.CountryName)
+
+				rows, err := db.Query(`SELECT country_name, currency, currency_name, currency_symbol from countries where country_name=$1`, choice.CountryName)
 				if err != nil {
 					return nil, fmt.Errorf("error %v", err)
 				}
@@ -64,8 +64,9 @@ func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
 
 		if choice.Region {
 			if choice.CountryName != "" {
-				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name, region, subregion, country_domain from countries where country_name=$1 `, statePascalCase)
+				choice.CountryName = strings.Title(choice.CountryName)
+
+				rows, err := db.Query(`SELECT country_name, region, subregion, country_domain from countries where country_name=$1 `, choice.CountryName)
 				if err != nil {
 					return nil, fmt.Errorf("error %v", err)
 				}
@@ -107,8 +108,9 @@ func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
 
 		if choice.Capital {
 			if choice.CountryName != "" {
-				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name ,capital, phone_code, iso_code from countries where country_name=$1 `, statePascalCase)
+				choice.CountryName = strings.Title(choice.CountryName)
+
+				rows, err := db.Query(`SELECT country_name ,capital, phone_code, iso_code from countries where country_name=$1 `, choice.CountryName)
 				if err != nil {
 					return nil, fmt.Errorf("im here  %v", err)
 				}
@@ -150,8 +152,9 @@ func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
 
 		if choice.CountryTime {
 			if choice.CountryName != " " {
-				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name, timezone ,zone_city, UTC from countries where country_name=$1 `, statePascalCase)
+				choice.CountryName = strings.Title(choice.CountryName)
+
+				rows, err := db.Query(`SELECT country_name, timezone ,zone_city, UTC from countries where country_name=$1 `, choice.CountryName)
 				if err != nil {
 					return nil, fmt.Errorf("im here  %v", err)
 				}
@@ -195,8 +198,9 @@ func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
 
 		if choice.CountryCoordinates {
 			if choice.CountryName != " " {
-				statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-				rows, err := db.Query(`SELECT country_name, longitude ,latitude from countries where country_name=$1 `, statePascalCase)
+				choice.CountryName = strings.Title(choice.CountryName)
+
+				rows, err := db.Query(`SELECT country_name, longitude ,latitude from countries where country_name=$1 `, choice.CountryName)
 				if err != nil {
 					return nil, fmt.Errorf("im here  %v", err)
 				}
@@ -239,8 +243,9 @@ func GetCountriesDB(db *sql.DB, choice *models.Filter) ([]byte, error) {
 		}
 
 		if choice.CountryName != "" {
-			statePascalCase := cases.Title(language.Und).String(choice.CountryName)
-			rows, err := db.Query("SELECT * FROM countries WHERE country_name = $1", statePascalCase)
+			choice.CountryName = strings.Title(choice.CountryName)
+
+			rows, err := db.Query("SELECT * FROM countries WHERE country_name = $1", choice.CountryName)
 			if err != nil {
 				return nil, err
 			}
