@@ -11,15 +11,12 @@ import (
 
 // GetCountriesData retreives the data from Database module
 // and return as a []*models.Country.
-func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
+func GetCountriesData(choice ...*models.Filter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
 		return nil, err
 	}
-	//newCountry := make([]*models.Countries, 0)
-	// the pkg cases & language used to convert the first letter to pascal case
-	//statePascalCase := cases.Title(language.Und).String(choice[0].CountryName)
 	// passed db as a paramater in order to connects to the db
 	if len(choice) == 0 {
 		countries, err := db.GetCountriesDB(conn, nil)
@@ -37,7 +34,7 @@ func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
 
 // GetStatesData retreives the data from DB module GetStatesDB()
 // and return as a []*models.States.
-func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
+func GetStatesData(choice ...*models.Filter) ([]*models.States, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -61,7 +58,7 @@ func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
 // and return as a slice of Cities.
-func GetCitiesData(choice ...*models.Option) ([]*models.Cities, error) {
+func GetCitiesData(choice ...*models.Filter) ([]*models.Cities, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {

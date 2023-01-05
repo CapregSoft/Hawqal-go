@@ -12,7 +12,7 @@ import (
    GetCitiesDB() function is supposed to get the cities from the sqlite db
    and return them as a slice of Cities.
 */
-func GetCitiesDB(db *sql.DB, choice *models.Option) ([]*models.Cities, error) {
+func GetCitiesDB(db *sql.DB, choice *models.Filter) ([]*models.Cities, error) {
 
 	if choice != nil {
 		cities := make([]*models.Cities, 0)
@@ -71,10 +71,6 @@ func GetCitiesDB(db *sql.DB, choice *models.Option) ([]*models.Cities, error) {
 				return nil, err
 			}
 			defer rows.Close()
-
-			// creating states dynamically
-			// states := make([]*models.States, 0)
-
 			for rows.Next() {
 				// interate till last row
 				var city models.Cities

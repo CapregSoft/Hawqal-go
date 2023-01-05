@@ -13,21 +13,18 @@ func main() {
 	// countries varable is an array of type []*models.Countries
 	// contains all the country-city_name & country-id
 	//Get the extra attributes of the countries by passing filter as a
-	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.Option{CountryName: "pakistan", Region: true, Capital: false, Currency: false, CountryTime: false, CountryCoordinates: false})
+	CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.Filter{CountryName: "pakistan"})
 	if err != nil {
 		log.Fatalf("Error %v", err)
 	}
-	//Iterate through the countries array
 	for _, country := range CountriesWithAttributtes {
-		//the variable country holds the one country city_name &  its specific Id
-		fmt.Printf("\n Country :: %v		%v		%v   \n", *country.CountryName, *country.Region, *country.SubRegion)
+		fmt.Print(string(country))
 	}
-
 	// states varable is an array of type []*models.States
 	// contains data of country-states & states-id
 	statesCorrdinates := true
 
-	states, err := hawqal.GetStatesData(&models.Option{CountryName: "", StatesCoordinates: statesCorrdinates})
+	states, err := hawqal.GetStatesData(&models.Filter{CountryName: "", StatesCoordinates: statesCorrdinates})
 	if err != nil {
 		//validating the error
 		//if error occurs prompt the error
@@ -53,7 +50,7 @@ func main() {
 	cityCoordinates := false
 	//cities varable is an array of type []*models.Cities
 	//contains data of country(states-cities) & country-id
-	cities, err := hawqal.GetCitiesData(&models.Option{CountryName: "pakistan", CityCoordinates: cityCoordinates})
+	cities, err := hawqal.GetCitiesData(&models.Filter{CountryName: "pakistan", CityCoordinates: cityCoordinates})
 	if err != nil {
 		//validating the error
 		log.Fatalf("Error %v", err)

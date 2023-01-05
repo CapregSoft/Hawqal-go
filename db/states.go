@@ -12,7 +12,7 @@ import (
    GetStatesDB function is supposed to get the states from the sqlite db and
    return them as a slice of States.
 */
-func GetStatesDB(db *sql.DB, choice *models.Option) ([]*models.States, error) {
+func GetStatesDB(db *sql.DB, choice *models.Filter) ([]*models.States, error) {
 	states := make([]*models.States, 0)
 	if choice != nil {
 		if choice.StatesCoordinates {
