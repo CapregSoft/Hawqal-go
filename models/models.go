@@ -8,40 +8,41 @@ package models
 
 //Country Structure Added to store the all the country data
 type Countries struct {
-	CountryName    *string `db:"country_name"`
-	Currency       *string `db:"currency"`
-	CurrencyName   *string `db:"currency_name"`
-	CurrencySymbol *string `db:"currency_symbol"`
-	Capital        *string `db:"capital"`
-	ISOCode        *string `db:"iso_code"`
-	PhoneCode      *string `db:"phone_code"`
-	Region         *string `db:"region"`
-	SubRegion      *string `db:"subregion"`
-	CountryDomain  *string `db:"country_domain"`
-	CountryZone    *string `db:"timezone"`
-	ZoneCity       *string `db:"zone_city"`
-	UTC            *string `db:"UTC"`
-	Latitude       *string `db:"latitude"`
-	Longitude      *string `db:"longitude"`
+	CountryName    *string `db:"country_name,omitempty"`
+	Currency       *string `db:"currency,omitempty"`
+	CurrencyName   *string `db:"currency_name,omitempty"`
+	CurrencySymbol *string `db:"currency_symbol,omitempty"`
+	Capital        *string `db:"capital,omitempty"`
+	ISOCode        *string `db:"iso_code,omitempty"`
+	PhoneCode      *string `db:"phone_code,omitempty"`
+	Region         *string `db:"region,omitempty"`
+	SubRegion      *string `db:"subregion,omitempty"`
+	CountryDomain  *string `db:"country_domain,omitempty"`
+	CountryZone    *string `db:"timezone,omitempty"`
+	ZoneCity       *string `db:"zone_city,omitempty"`
+	UTC            *string `db:"UTC,omitempty"`
+	Latitude       *string `db:"latitude,omitempty"`
+	Longitude      *string `db:"longitude,omitempty"`
 }
 
 //States Structure created to store city_name and its ID w.r.t country city_name
 type States struct {
-	CountryName     *string `db:"country_name"`
-	StateID         *int    `db:"state_id"`
-	StateName       *string `db:"name"`
-	StatesLatitude  *string `db:"latitude"`
-	StatesLongitude *string `db:"longitude"`
+	CountryName     *string `db:"country_name,omitempty"`
+	StateID         *int    `db:"state_id,omitempty"`
+	StateName       *string `db:"state_name,omitempty"`
+	StatesLatitude  *string `db:"latitude,omitempty"`
+	StatesLongitude *string `db:"longitude,omitempty"`
 }
 
 //Struct city created to store city city_name & id w.r.t country city_name & state ID
 type Cities struct {
-	CountryName     *string `db:"country_name"`
-	StateID         *int    `db:"state_id"`
-	CityID          *int    `db:"city_id"`
-	CityName        *string `db:"city_name"`
-	CitiesLatitude  *string `db:"latitude"`
-	CitiesLongitude *string `db:"longitude"`
+	CountryName     *string `db:"country_name,omitempty"`
+	StateID         *int    `db:"state_id,omitempty"`
+	StateName       *string `db:"state_name,omitempty"`
+	CityID          *int    `db:"city_id,omitempty"`
+	CityName        *string `db:"city_name,omitempty"`
+	CitiesLatitude  *string `db:"latitude,omitempty"`
+	CitiesLongitude *string `db:"longitude,omitempty"`
 }
 
 /*
@@ -49,15 +50,13 @@ type Cities struct {
 
 	Used option struct as a filter in three functions...
 */
-type Option struct {
+type CountryFilter struct {
 	CountryName        string
 	Currency           bool
 	Region             bool
 	Capital            bool
 	CountryTime        bool
 	CountryCoordinates bool
-	CityCoordinates    bool
-	StatesCoordinates  bool
 }
 
 //Declaring Constants For Test Cases
@@ -67,3 +66,14 @@ const (
 	TotalCities    = 150710
 	TotalStates    = 4989
 )
+
+type StateFilter struct {
+	CountryName       string
+	StatesCoordinates bool
+}
+
+type CityFilter struct {
+	CountryName     string
+	StateName       string
+	CityCoordinates bool
+}

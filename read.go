@@ -1,25 +1,18 @@
 package hawqal
 
 import (
-	"fmt"
-
 	db "github.com/CapregSoft/Hawqal-go/db"
 	"github.com/CapregSoft/Hawqal-go/models"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 // GetCountriesData retreives the data from Database module
-// and return as a []*models.Country.
-func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
+// and return as a []byte after marshling into a json format
+func GetCountriesData(choice ...*models.CountryFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
 		return nil, err
 	}
-	//newCountry := make([]*models.Countries, 0)
-	// the pkg cases & language used to convert the first letter to pascal case
-	//statePascalCase := cases.Title(language.Und).String(choice[0].CountryName)
 	// passed db as a paramater in order to connects to the db
 	if len(choice) == 0 {
 		countries, err := db.GetCountriesDB(conn, nil)
@@ -32,12 +25,13 @@ func GetCountriesData(choice ...*models.Option) ([]*models.Countries, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer conn.Close()
 	return countriesData, nil
 }
 
 // GetStatesData retreives the data from DB module GetStatesDB()
-// and return as a []*models.States.
-func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
+// and return as a []byte after marshling into a json format
+func GetStatesData(choice ...*models.StateFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -56,12 +50,13 @@ func GetStatesData(choice ...*models.Option) ([]*models.States, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer conn.Close()
 	return statesData, nil
 }
 
 // GetCitiesData retreives the data from database module GetCitiesDB()
-// and return as a slice of Cities.
-func GetCitiesData(choice ...*models.Option) ([]*models.Cities, error) {
+// and return as a []byte after marshling into a json format
+func GetCitiesData(choice ...*models.CityFilter) ([]byte, error) {
 	// connects to the database in order to retreive the data from it.
 	conn, err := db.DBConnection()
 	if err != nil {
@@ -78,77 +73,6 @@ func GetCitiesData(choice ...*models.Option) ([]*models.Cities, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer conn.Close()
 	return citiesData, nil
-}
-
-// GetStatesByCountry accepts the country city_name as a paramater .
-// return the states for the specific country city_name
-func GetStatesByCountry(country string) ([]*models.States, error) {
-	if len(country) == 0 {
-		return nil, fmt.Errorf("country is required")
-	}
-	// the pkg cases & language used to convert the first letter to pascal case
-	statePascalCase := cases.Title(language.Und).String(country)
-
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
-	}
-
-	// passed db as a paramater in order to connects to the database.
-	states, err := db.GetStatesByCountryDB(conn, statePascalCase)
-	if err != nil {
-		return nil, err
-	}
-
-	return states, nil
-}
-
-//GetCitiesBYCountryData retreives the data from DB module GetCitiesByCountry()
-//Accepts the param of string as a country city_name
-//And returns to the example module with array []*models.Cities
-func GetCitiesByCountryData(country string) ([]*models.Cities, error) {
-	if len(country) == 0 {
-		return nil, fmt.Errorf("country is required")
-	}
-	// the pkg cases & language used to convert the first letter to pascal case
-	statePascalCase := cases.Title(language.Und).String(country)
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
-	}
-
-	// passed db as a paramater in order to connects to the database.
-	cities, err := db.GetCitiesByCountry(conn, statePascalCase)
-	if err != nil {
-		return nil, err
-	}
-
-	return cities, nil
-}
-
-// GetCitiesByState retreives the data from database module GetCitiesByStateDB()
-// that accepts the param as a string of country city_name and
-// returns array of []*models.Cities
-func GetCitiesByState(state string) ([]*models.Cities, error) {
-	if len(state) == 0 {
-		return nil, fmt.Errorf("state is required")
-	}
-	// the pkg cases & language used to convert the first letter to pascal case
-	statePascalCase := cases.Title(language.Und).String(state)
-
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
-	}
-
-	// passed db as a paramater in order to connects to the db
-	cities, err := db.GetCitiesByStateDB(conn, statePascalCase)
-	if err != nil {
-		return nil, err
-	}
-	return cities, nil
 }
