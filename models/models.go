@@ -51,25 +51,21 @@ type Cities struct {
 	Used option struct as a filter in three functions...
 */
 type CountryFilter struct {
-	Country_name string
-	CountryMeta  *CountryInner
-}
-
-type CountryInner struct {
-	Currency        bool
-	Currency_name   bool
-	Currency_symbol bool
-	Capital         bool
-	Iso_code        bool
-	Phone_code      bool
-	Region          bool
-	Subregion       bool
-	Country_domain  bool
-	Timezone        bool
-	Zone_city       bool
-	UTC             bool
-	Latitude        bool
-	Longitude       bool
+	CountryName    bool `db:"country_name"`
+	Currency       bool `db:"currency"`
+	CurrencyName   bool `db:"currency_name"`
+	CurrencySymbol bool `db:"currency_symbol"`
+	Capital        bool `db:"capital"`
+	IsoCode        bool `db:"iso_code"`
+	PhoneCode      bool `db:"phone_code"`
+	Region         bool `db:"region"`
+	Subregion      bool `db:"subregion"`
+	CountryDomain  bool `db:"country_domain"`
+	Timezone       bool `db:"timezone"`
+	Zone_city      bool `db:"zone_city"`
+	UTC            bool `db:"UTC"`
+	Latitude       bool `db:"latitude"`
+	Longitude      bool `db:"longitide"`
 }
 
 //Declaring Constants For Test Cases
@@ -81,21 +77,30 @@ const (
 )
 
 type StateFilter struct {
-	Country_name string
-	State_id     bool
-	State_name   string
-	City_id      bool
-	City_name    bool
-	Latitude     bool
-	Longitude    bool
+	CountryName string `db:"country_name"`
+	Filter      *StateData
+}
+
+type StateData struct {
+	CountryName bool `db:"country_name"`
+	StateName   bool `db:"state_name"`
+	StateId     bool `db:"state_id"`
+	Latitude    bool `db:"latitude"`
+	Longitude   bool `db:"longitude"`
 }
 
 type CityFilter struct {
-	Country_name string
-	State_id     bool
-	State_name   string
-	City_id      bool
-	City_name    bool
-	Latitude     bool
-	Longitude    bool
+	CountryName string `db:"country_name"`
+	StateName   string `db:"state_name"`
+	Filter      *CityData
+}
+
+type CityData struct {
+	CountryName bool `db:"country_name"`
+	StateName   bool `db:"state_name"`
+	StateId     bool `db:"state_id"`
+	CityId      bool `db:"city_id"`
+	CityName    bool `db:"city_name"`
+	Latitude    bool `db:"latitude"`
+	Longitude   bool `db:"longitude"`
 }
