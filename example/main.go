@@ -14,35 +14,8 @@ func CheckError(err error) {
 	}
 }
 func main() {
-	data, err := hawqal.GetState("united states","texas", &models.StateFilter{})
+	data, err := hawqal.GetCountries(&models.CountryFilter{Country_name: "pakistan", CountryMeta: &models.CountryInner{Currency_name: false}})
 	CheckError(err)
 	fmt.Print(string(data))
 
-	// output := filter.GetTrue(countryModel)
-	// fmt.Print(output)
-	// CountriesWithAttributtes, err := hawqal.GetCountriesData(&models.CountryFilter{})
-	// if err != nil {
-	// 	log.Fatalf("%v", err)
-	// }
-	// for _, country := range CountriesWithAttributtes {
-	// 	fmt.Print(string(country))
-	// }
-
-	// states, err := hawqal.GetStatesData(&models.StateFilter{CountryName: "pakistan", StatesCoordinates: true})
-	// if err != nil {
-	// 	log.Fatalf("%v", err)
-	// }
-	// fmt.Print("\nStates\n")
-	// for _, state := range states {
-	// 	fmt.Print(string(state))
-	// }
-
-	// cities, err := hawqal.GetCitiesData(&models.CityFilter{CountryName: "pakistan", StateName: "sindh", CityCoordinates: true})
-	// if err != nil {
-	// 	log.Fatalf("%v", err)
-	// }
-	// fmt.Print("Cities")
-	// for _, city := range cities {
-	// 	fmt.Print(string(city))
-	// }
 }
