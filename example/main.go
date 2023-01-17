@@ -14,13 +14,9 @@ func CheckError(err error) {
 	}
 }
 func main() {
-	data, err := hawqal.GetCountry("", &models.CountryFilter{Currency: true, Country_name: true})
+	data, err := hawqal.GetState("united states","texas", &models.StateFilter{})
 	CheckError(err)
 	fmt.Print(string(data))
-	// countryModel := &models.CountryFilter{Currency: true,
-	// 	Currency_name: true, Currency_symbol: true, Capital: true, Iso_code: true,
-	// 	Phone_code: true, Region: true, Subregion: true, Country_domain: true,
-	// 	Time_zone: true, Zonecity: true, UTC: true, Latitude: true, Longitude: true}
 
 	// output := filter.GetTrue(countryModel)
 	// fmt.Print(output)

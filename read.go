@@ -1,78 +1,172 @@
 package hawqal
 
 import (
-	db "github.com/CapregSoft/Hawqal-go/db"
+	"encoding/json"
+	"fmt"
+	"log"
+	"strings"
+
+	"github.com/CapregSoft/Hawqal-go/db"
+	filter "github.com/CapregSoft/Hawqal-go/filterbool"
 	"github.com/CapregSoft/Hawqal-go/models"
 )
 
+// Function to Check Error
+func CheckError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // GetCountriesData retreives the data from Database module
 // and return as a []byte after marshling into a json format
-func GetCountriesData(choice ...*models.CountryFilter) ([]byte, error) {
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
+func GetCountries(choice ...*models.CountryFilter) ([]byte, error) {
+	var trueFields string
+	countries := make([]*models.Countries, 0)
+	if choice != nil {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
 	}
-	// passed db as a paramater in order to connects to the db
-	if len(choice) == 0 {
-		countries, err := db.GetCountriesDB(conn, nil)
-		if err != nil {
-			return nil, err
-		}
-		return countries, nil
+	if trueFields != "" {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
+	} else {
+		trueFields = "*"
 	}
-	countriesData, err := db.GetCountriesDB(conn, choice[0])
-	if err != nil {
-		return nil, err
-	}
+	sqlQuery := "SELECT "
+	sqlQuery = sqlQuery + trueFields + " FROM countries "
+	// if country_name != "" {
+	// 	country_name = strings.Title(country_name)
+	// 	sqlQuery = fmt.Sprintf("%v WHERE country_name = '%v'", sqlQuery, country_name)
+	// }
+	conn, _ := db.DBConnection()
 	defer conn.Close()
-	return countriesData, nil
+	fmt.Print(sqlQuery)
+	rows, err := conn.Queryx(sqlQuery)
+	CheckError(err)
+	for rows.Next() {
+		var country models.Countries
+		if err := rows.StructScan(&country); err != nil {
+			fmt.Println(err)
+		}
+		countries = append(countries, &country)
+	}
+	defer rows.Close()
+	coordinatesJson, err := json.MarshalIndent(countries, "", "  ")
+	CheckError(err)
+	return coordinatesJson, nil
 }
 
-// GetStatesData retreives the data from DB module GetStatesDB()
-// and return as a []byte after marshling into a json format
-func GetStatesData(choice ...*models.StateFilter) ([]byte, error) {
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
-	}
+// func GetCountry(country_name string, choice ...*models.CountryFilter) ([]byte, error) {
+// 	var data string
 
-	// passed db as a paramater in order to connects to the db
-	if len(choice) == 0 {
-		states, err := db.GetStatesDB(conn, nil)
-		if err != nil {
-			return nil, err
-		}
-		return states, nil
+// 	countries := make([]*models.Countries, 0)
+// 	if choice != nil {
+// 		output := filter.GetValue(choice[0])
+// 		trueFields = filter.GetTrue(output)
+// 	}
+// 	if data != "" {
+// 		output := filter.GetValue(choice[0])
+// 		trueFields = filter.GetTrue(output)
+// 	} else {
+// 		data = "*"
+// 	}
+// 	sqlQuery := "SELECT "
+// 	if country_name != "" {
+// 		country_name = strings.Title(country_name)
+// 		sqlQuery = fmt.Sprintf("%v%v FROM countries where country_name='%v'", sqlQuery, data, country_name)
+// 	} else {
+// 		return nil, fmt.Errorf("coutries name is must required ")
+// 	}
+// 	conn, _ := db.DBConnection()
+// 	defer conn.Close()
+// 	fmt.Print(sqlQuery)
+// 	rows, err := conn.Queryx(sqlQuery)
+// 	CheckError(err)
+// 	for rows.Next() {
+// 		var country models.Countries
+// 		if err := rows.StructScan(&country); err != nil {
+// 			fmt.Println(err)
+// 		}
+// 		countries = append(countries, &country)
+// 	}
+// 	defer rows.Close()
+// 	coordinatesJson, err := json.MarshalIndent(countries, "", "  ")
+// 	CheckError(err)
+// 	return coordinatesJson, nil
+// }
+
+func GetStates(country_name string, choice ...*models.StateFilter) ([]byte, error) {
+	var trueFields string
+	states := make([]*models.States, 0)
+	if choice != nil {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
 	}
-	statesData, err := db.GetStatesDB(conn, choice[0])
-	if err != nil {
-		return nil, err
+	if trueFields != "" {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
+	} else {
+		trueFields = "*"
 	}
+	sqlQuery := "SELECT "
+	sqlQuery = sqlQuery + trueFields + " FROM states "
+	if country_name != "" {
+		country_name = strings.Title((country_name))
+		sqlQuery = sqlQuery + fmt.Sprintf("WHERE country_name = '%v'", country_name)
+	}
+	conn, _ := db.DBConnection()
 	defer conn.Close()
-	return statesData, nil
+	fmt.Print(sqlQuery)
+	rows, err := conn.Queryx(sqlQuery)
+	CheckError(err)
+	for rows.Next() {
+		var state models.States
+		if err := rows.StructScan(&state); err != nil {
+			fmt.Println(err)
+		}
+		states = append(states, &state)
+	}
+	defer rows.Close()
+	coordinatesJson, err := json.MarshalIndent(states, "", "  ")
+	CheckError(err)
+	return coordinatesJson, nil
 }
 
-// GetCitiesData retreives the data from database module GetCitiesDB()
-// and return as a []byte after marshling into a json format
-func GetCitiesData(choice ...*models.CityFilter) ([]byte, error) {
-	// connects to the database in order to retreive the data from it.
-	conn, err := db.DBConnection()
-	if err != nil {
-		return nil, err
+func GetState(country_name, state_name string, choice ...*models.StateFilter) ([]byte, error) {
+	var trueFields string
+	states := make([]*models.States, 0)
+	if choice != nil {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
 	}
-	if len(choice) == 0 {
-		cities, err := db.GetCitiesDB(conn, nil)
-		if err != nil {
-			return nil, err
-		}
-		return cities, nil
+	if trueFields != "" {
+		userInput := filter.GetValue(choice[0])
+		trueFields = filter.GetTrue(userInput)
+	} else {
+		trueFields = "*"
 	}
-	citiesData, err := db.GetCitiesDB(conn, choice[0])
-	if err != nil {
-		return nil, err
+	sqlQuery := "SELECT "
+	sqlQuery = sqlQuery + trueFields + " FROM states "
+	if country_name != "" {
+		country_name = strings.Title((country_name))
+		state_name = strings.Title((state_name))
+		sqlQuery = sqlQuery + fmt.Sprintf("WHERE country_name = '%v' AND state_name = '%v'", country_name, state_name)
 	}
+	conn, _ := db.DBConnection()
 	defer conn.Close()
-	return citiesData, nil
+	fmt.Print(sqlQuery)
+	rows, err := conn.Queryx(sqlQuery)
+	CheckError(err)
+	for rows.Next() {
+		var state models.States
+		if err := rows.StructScan(&state); err != nil {
+			fmt.Println(err)
+		}
+		states = append(states, &state)
+	}
+	defer rows.Close()
+	coordinatesJson, err := json.MarshalIndent(states, "", "  ")
+	CheckError(err)
+	return coordinatesJson, nil
 }
