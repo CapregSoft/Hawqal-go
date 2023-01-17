@@ -14,8 +14,8 @@ func CheckError(err error) {
 	}
 }
 func main() {
-	data, err := hawqal.GetCountries(&models.CountryFilter{Country_name: "pakistan", CountryMeta: &models.CountryInner{Currency_name: false}})
+
+	data, err := hawqal.GetStates(&models.StateFilter{CountryName: "pakistan", Filter: &models.StateData{StateName: true}})
 	CheckError(err)
 	fmt.Print(string(data))
-
 }
