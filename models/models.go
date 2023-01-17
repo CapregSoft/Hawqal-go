@@ -51,7 +51,11 @@ type Cities struct {
 	Used option struct as a filter in three functions...
 */
 type CountryFilter struct {
-	Country_name    bool
+	Country_name string
+	CountryMeta  *CountryInner
+}
+
+type CountryInner struct {
 	Currency        bool
 	Currency_name   bool
 	Currency_symbol bool
@@ -77,9 +81,9 @@ const (
 )
 
 type StateFilter struct {
-	Country_name bool
+	Country_name string
 	State_id     bool
-	State_name   bool
+	State_name   string
 	City_id      bool
 	City_name    bool
 	Latitude     bool
@@ -87,9 +91,9 @@ type StateFilter struct {
 }
 
 type CityFilter struct {
-	Country_name bool
+	Country_name string
 	State_id     bool
-	State_name   bool
+	State_name   string
 	City_id      bool
 	City_name    bool
 	Latitude     bool
