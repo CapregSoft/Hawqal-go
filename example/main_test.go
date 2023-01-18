@@ -13,8 +13,8 @@ import (
 	Uses testing and testify/require libray for test cases.
 */
 
-//TestMainFunction is defined using testing.T as paramater
-//Tests the actual and expected result from functions.
+// TestMainFunction is defined using testing.T as paramater
+// Tests the actual and expected result from functions.
 func TestMainFunction(t *testing.T) {
 
 	//defined a structure for testcase & initalized it
