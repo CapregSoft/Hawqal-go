@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	hawqal "github.com/CapregSoft/Hawqal-go"
-	"github.com/CapregSoft/Hawqal-go/models"
+	hawqal "github.com/CapregSoft/Hawqal-go/hawqal"
+	// "github.com/CapregSoft/Hawqal-go/models"
 )
 
 func CheckError(err error) {
@@ -15,28 +15,28 @@ func CheckError(err error) {
 }
 func main() {
 
-	// countries, err := hawqal.GetCountries()
-	// CheckError(err)
-	// fmt.Print(string(countries))
+	countries, err := hawqal.GetCountries()
+	CheckError(err)
+	fmt.Print(string(countries))
 
-	// country, err := hawqal.GetCountry("pakistan")
-	// CheckError(err)
-	// fmt.Print(string(country))
+	country, err := hawqal.GetCountry("pakistan")
+	CheckError(err)
+	fmt.Print(string(country))
 
-	// states, err := hawqal.GetStates()
-	// CheckError(err)
-	// fmt.Print(string(states))
+	states, err := hawqal.GetStates()
+	CheckError(err)
+	fmt.Print(string(states))
 
-	state, err := hawqal.GetState("Punjab", &models.StateFilter{CountryName: "pakistan", Filter: &models.StateData{StateName: true}})
+	state, err := hawqal.GetState("punjab")
 	CheckError(err)
 	fmt.Print(string(state))
 
-	// cities, err := hawqal.GetCities()
-	// CheckError(err)
-	// fmt.Print(string(cities))
+	cities, err := hawqal.GetCities()
+	CheckError(err)
+	fmt.Print(string(cities))
 
-	// city, err := hawqal.GetCity("Lahore")
-	// CheckError(err)
-	// fmt.Print(string(city))
+	city, err := hawqal.GetCity("Lahore")
+	CheckError(err)
+	fmt.Print(string(city))
 
 }
